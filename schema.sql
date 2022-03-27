@@ -22,8 +22,11 @@ CREATE TABLE employee (
 id INT NOT NULL AUTO_INCREMENT,      
 first_name VARCHAR(30) NOT NULL,     
 last_name VARCHAR(30) NOT NULL,     
-dept_id INT,     role_id INT NOT NULL,     
-is_mgr BOOLEAN,     mgr_id INT,     PRIMARY KEY(id),     
+dept_id INT,     
+role_id INT NOT NULL,     
+is_mgr BOOLEAN,     
+mgr_id INT,     
+PRIMARY KEY(id),     
 FOREIGN KEY(dept_id) REFERENCES department(id),     
 FOREIGN KEY(role_id) REFERENCES role(id),     
 FOREIGN KEY(mgr_id) REFERENCES employee(id)     
