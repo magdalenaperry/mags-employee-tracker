@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/magdalenaperry/mags-employee-tracker#readme",
   "dependencies": {
-    "inquirer": "^8.2.2"
+    "console.table": "^0.10.0",
+    "express": "^4.17.3",
+    "inquirer": "^8.2.2",
+    "mysql2": "^2.3.3"
   }
 }
