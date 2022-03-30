@@ -15,21 +15,22 @@
 This is a terminal based application made with SQL, inquirer, and console.table. The application was made to expedite updating an employee database and hosting information regarding department names, roles, and specific employees and their corresponding information.
 
 ---
+## Installation
+    npm install
+
+---
 ## Demo
 
 [Demo Link](https://www.github.com/magdalenaperry)
 
----
-## Installation
-    npm install
 ---
 ## Usage
 
 Import the database and seed information to view functionality
 
     mysql -u root -p 
-    source schema.sql 
-    source seeds.sql 
+    source db/schema.sql 
+    source db/seeds.sql 
     exit 
 
 Begin the application

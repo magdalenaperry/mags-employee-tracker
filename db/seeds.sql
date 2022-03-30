@@ -21,20 +21,17 @@ VALUES
 (0009, 'Director of Patient Advocacy', 200000, 004),
 (0010, 'Mammography Tech', 70000, 006);
 
-INSERT INTO employee(id, first_name, last_name, role_id, mgr_id, is_mgr)
+INSERT INTO employee(id, last_name, first_name, role_id, mgr_id)
 VALUES
-(01, 'Perry', 'Brad', 001,  null, false),
-(02, 'Smith', 'Jane', 005,  null, false),
-(03, 'Johnson', 'Anthony', 006, null, false),
-(04, 'Cooper', 'Sheldon', 006, null, false),
-(05, 'Fulesh', 'Sofia', 001, null, false),
-(06, 'Vakrim', 'Robert', 004, null, false),
-(07, 'Almazan', 'Abdul', 001, null, false),
-(08, 'Gonzales', 'Samantha', 002, null, false),
-(09, 'Jung', 'David', 003, null,  false),
-(10, 'VanTassel', 'Joanne', 005,  null, false);
+(01, 'Perry', 'Brad', 001,  null),
+(02, 'Smith', 'Jane', 005,  01),
+(03, 'Johnson', 'Anthony', 006, 01),
+(04, 'Cooper', 'Sheldon', 006, 01),
+(05, 'Fulesh', 'Sofia', 001, null),
+(06, 'Vakrim', 'Robert', 004, null),
+(07, 'Almazan', 'Abdul', 001, null),
+(08, 'Gonzales', 'Samantha', 002, null),
+(09, 'Jung', 'David', 003, null),
+(10, 'VanTassel', 'Joanne', 005, null);
 
--- SELECT * FROM employee; 
--- UPDATE employee SET is_mgr = True WHERE role_id IN (006);
--- UPDATE employee SET mgr_id = 2001 WHERE role_id IN (006);
 
