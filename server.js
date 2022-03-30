@@ -177,6 +177,26 @@ const addDept = function () {
     })
 }
 
+// add roles, then chooses dept for role, sends back to init screen after confirmation message
+const addRole = () => {
+    inquirer.prompt(addRoleQs).then((answer) => {
+        db.query(
+            `INSERT INTO roles (title, salary, dept_id) VALUES (?, ?, ?)`,
+            [answer.title, answer.salary, 1],
+            function (err, results) {
+                if (err) {
+                    console.log(err);
+                }
+                // logs the id of last inserted role (##id, title, salary, dept_id)
+                // console.log(results.insertId)
+                // console.log(results.insertId)
+                chooseDeptforRole(results.insertId);
+                goBack();
+            }
+        
+        )
+    })
+}
 
 const chooseDeptforRole = (departmentId) => {
     db.query(`
@@ -202,29 +222,12 @@ const chooseDeptforRole = (departmentId) => {
                     });
                     goBack();
                 })
-            })
-        });
-    };
-    
-    // add role, send back to init screen after confirmation message
-    const addRole = () => {
-        inquirer.prompt(addRoleQs).then((answer) => {
-            db.query(`INSERT INTO roles (title, salary, dept_id) VALUES (?, ?, ?)`,
-                [answer.title, answer.salary, 1],
-                function (err, results) {
-                    if (err) {
-                        console.log(err);
-                    }
-                        // logs the id of last inserted role (##id, title, salary, dept_id)
-                        // console.log(results.insertId)
-                        console.log(results.insertId)
-                        chooseDeptforRole(results.insertId);
-                }
-            )
         })
-    }
-    
-    
+    });
+};
+
+
+
 
 // const chooseDeptforRole = (roleID) => {
 //     db.query(`
@@ -287,9 +290,9 @@ const addEmployee = () => {
                     console.log(err);
                 }
                 // logs the id of last inserted role
-                console.log(results.insertId)
+                // console.log(results.insertId)
                 // console.log(results)
-                addManager(results.insertId);
+                addManager(results);
             });
     })
 }
@@ -298,10 +301,11 @@ const addManager = (employee_id) => {
     db.query(`
     SELECT 
     id AS value, 
+    mgr_id AS managerID
     CONCAT(first_name, ' ', last_name) AS name 
     FROM employee 
     WHERE NOT id = ?
-    `, employee_id, (err, managers) => {
+    `, (err, managers) => {
         inquirer.prompt({
             type: 'rawlist',
             message: "Who's the manager?",
@@ -355,23 +359,103 @@ const empByManager = () => {
 const empByDept = () => {
 
 }
-// bonus
+// DELETES DEPARTMENT (added constraint to foreign keys)
 const delDept = () => {
-    // db.query(`DELETE FROM course_names WHERE id = ?`, 3, (err, result) => {
-    //     if (err) {
-    //         console.log(err);
-    //     }
-    //     console.log(result);
-    // });
-}
-// bonus
+    db.query(`
+    SELECT 
+    id AS value, 
+    dept_name AS name 
+    FROM department
+    `, (err, departments) => {
+        inquirer.prompt({
+            type: 'rawlist',
+            message: "What's the department you wish to delete?",
+            name: 'department',
+            choices: departments
+        }).then((answers) => {
+            console.log(answers.department);
+            db.query(
+                'DELETE FROM department WHERE id = ?',
+                [answers.department],
+                (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(`\n You have deleted a department \n`);
+                    }
+                    goBack();
+                })
+        })
+    });
+};
+
+
+
+
+// DELETES ROLE, (added constraint to foreign keys)
 const delRole = () => {
+    db.query(`
+    SELECT 
+    id AS value, 
+    title AS name 
+    FROM roles
+    `, (err, roles) => {
+        inquirer.prompt({
+            type: 'rawlist',
+            message: "What's the role you wish to delete?",
+            name: 'role',
+            choices: roles
+        }).then((answers) => {
+            console.log(answers.role);
+            db.query(
+                'DELETE FROM roles WHERE id = ?',
+                [answers.role],
+                (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(`\n You have deleted a department \n`);
+                    }
+                    goBack();
+                })
+        })
+    });
+};
 
-}
-//bonus
+
+
+
+
+//bonus DONE!
 const delEmp = () => {
+    db.query(`
+    SELECT 
+    id AS value, 
+    first_name AS name
+    FROM employee
+    `, (err, employees) => {
+        inquirer.prompt({
+            type: 'rawlist',
+            message: "Who is the employee you wish to delete?",
+            name: 'employee',
+            choices: employees
+        }).then((answers) => {
+            console.log(answers.employee);
+            db.query(
+                'DELETE FROM employee WHERE id = ?',
+                [answers.employee],
+                (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(`\n You have deleted an employee \n`);
+                    }
+                    goBack();
+                })
+        })
+    });
+};
 
-}
 
 
 // =======================Questions=======================
@@ -408,20 +492,20 @@ const addEmployeeQs = [{
 
 // add Role Qs
 const addRoleQs = [{
-    type: "input",
-    message: "What is the name of the role?",
-    name: "title"
-}, {
-    type: "input",
-    message: "What is the role's salary?",
-    name: "salary"
-}
-// , {
-//     type: "rawlist",
-//     message: "What is department id?",
-//     name: "dept_id",
-//     choices: [1, 2, 3, 4, 5, 6, 7, 8]
-// }
+        type: "input",
+        message: "What is the name of the role?",
+        name: "title"
+    }, {
+        type: "input",
+        message: "What is the role's salary?",
+        name: "salary"
+    }
+    // , {
+    //     type: "rawlist",
+    //     message: "What is department id?",
+    //     name: "dept_id",
+    //     choices: [1, 2, 3, 4, 5, 6, 7, 8]
+    // }
 ]
 
 // bonus
