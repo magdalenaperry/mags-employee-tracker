@@ -12,7 +12,7 @@
 
 ---
 ## Description
-This is a terminal based application made with SQL, inquirer, and console.table. The application was made to expedite updating an employee database and hosting information regarding department names, roles, and specific employees and their corresponding information.
+This is a terminal based application made with SQL, inquirer, and console.table. The application was made to expedite updating a hospital employee database and hosting information regarding department names, roles, and specific employees and corresponding information.
 
 ---
 ## Installation
@@ -21,7 +21,7 @@ This is a terminal based application made with SQL, inquirer, and console.table.
 ---
 ## Demo
 
-[Demo Link](https://www.github.com/magdalenaperry)
+[Demo Link](https://youtu.be/kTrF4zM0oFM)
 
 ---
 ## Usage
